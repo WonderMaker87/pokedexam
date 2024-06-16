@@ -24,7 +24,7 @@ class TypeStoreRequest extends FormRequest
         return [
             'name' => 'required|unique:types|max:255',
             'color' => 'required|unique:types|max:255',
-            'img' => 'required|unique:types|image'
+            'img_path' => 'required|unique:types|image'
         ];
     }
 }

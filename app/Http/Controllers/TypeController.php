@@ -6,6 +6,7 @@ use App\Http\Requests\TypeStoreRequest;
 use App\Http\Requests\TypeUpdateRequest;
 use App\Models\Type;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class TypeController extends Controller
 {
@@ -28,6 +29,13 @@ class TypeController extends Controller
         return view('admin.types.create');
     }
 
+    public function edit(Type $type)
+    {
+        return view('admin.types.edit', compact('type'));
+    }
+
+
+
     public function store(TypeStoreRequest $request)
     {
         $type = Type::make();
@@ -36,25 +44,45 @@ class TypeController extends Controller
         $type->color = $request->validated()['color'];
 
         if ($request->hasFile('img_path')) {
-            $path = $request->file('img_path')->store('types', 'public');
-            $type->img_path = 'storage/' . $path;
+            $path = $request->file('img_path')->store('images', 'public');
+            $type->img_path = $path;
         }
 
         $type->save();
 
         return redirect()->route('types.index');
     }
-    public function update(TypeUpdateRequest $request, Type $type)
+    public function update(Request $request, Type $type)
+{
+    $validated = $request->validate([
+        'name' => 'required|string|max:255',
+        'color' => 'required|string|max:255',
+    ]);
+
+    $type->name = $validated['name'];
+    $type->color = $validated['color'];
+    if ($request->hasFile('img_path')) {
+        if ($type->img_path) {
+            Storage::disk('public')->delete(str_replace('storage/', '', $type->img_path));
+        }
+    
+        $path = $request->file('img_path')->store('images', 'public');
+        $type->img_path = $path;
+    }
+    $type->save();
+
+    return redirect()->route('types.index');
+}
+
+
+    
+    public function destroy(Type $type)
     {
-
-        $type->name = $request->validated()['name'];
-        $type->color = $request->validated()['color'];
-
-        if ($request->hasFile('img')) {
-            $path = $request->file('img')->store('types', 'public');
-            $type->img_path = 'storage/' . $path;
+        if ($type->img_path) {
+            Storage::disk('public')->delete(str_replace('storage/', '', $type->img_path));
         }
 
-        $type->save();
+        $type->delete();
+        return redirect()->route('types.index');
     }
 }
