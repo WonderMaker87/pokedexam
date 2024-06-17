@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('pokemon_type', function (Blueprint $table) {
             $table->unsignedBigInteger('pokemon_id');
             $table->unsignedBigInteger('type_id');
-            $table->foreign('pokemon_id')->references('id')->on('pokemons')->onDelete('cascade');
+            $table->foreign('pokemon_id')->references('id')->on('pokemon')->onDelete('cascade');
             $table->foreign('type_id')->references('id')->on('types')->onDelete('cascade');
             $table->primary(['pokemon_id', 'type_id']);
         });

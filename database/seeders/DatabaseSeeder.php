@@ -22,5 +22,11 @@ class DatabaseSeeder extends Seeder
         $this->call([
             TypeTableSeeder::class,
         ]);
+        $this->call([
+            AttackTableSeeder::class,
+        ]);
+        $this->call([
+            PokemonTableSeeder::class,
+        ]);
     }
 }
