@@ -18,7 +18,7 @@ class PokemonController extends Controller
 
     public function create()
     {
-        $types = Type::all(); // Assuming you have a Type model
+        $types = Type::all();
         return view('admin.pokemon.create', compact('types'));
     }
 
