@@ -32,14 +32,14 @@
 
                 <div>
                     <x-input-label for="weight" :value="__('Poids')" />
-                    <x-text-input id="weight" class="block mt-1 w-full" type="number" name="weight"
+                    <x-text-input id="weight" class="block mt-1 w-full" type="number" step="0.01" name="weight"
                         :value="old('weight')" />
                     <x-input-error :messages="$errors->get('weight')" class="mt-2" />
                 </div>
 
                 <div>
                     <x-input-label for="height" :value="__('Taille')" />
-                    <x-text-input id="height" class="block mt-1 w-full" type="number" name="height"
+                    <x-text-input id="height" class="block mt-1 w-full" type="number" step="0.01" name="height"
                         :value="old('height')" />
                     <x-input-error :messages="$errors->get('height')" class="mt-2" />
                 </div>

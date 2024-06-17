@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('name')->unique();
             $table->integer('hp');
-            $table->integer('weight');
-            $table->integer('height');
+            $table->float('weight');
+            $table->float('height');
             $table->string('img_path');
             $table->unsignedBigInteger('primary_type_id');
             $table->unsignedBigInteger('secondary_type_id')->nullable();

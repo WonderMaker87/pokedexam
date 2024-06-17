@@ -16,8 +16,8 @@ class PokemonStoreRequest extends FormRequest
         return [
             'name' => 'required|string|max:255|unique:pokemon,name',
             'hp' => 'required|integer',
-            'weight' => 'required|integer',
-            'height' => 'required|integer',
+            'weight' => 'required|numeric',
+            'height' => 'required|numeric',
             'img_path' => 'required|image',
             'primary_type_id' => 'required|exists:types,id',
             'secondary_type_id' => 'nullable|exists:types,id',
