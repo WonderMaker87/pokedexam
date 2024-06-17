@@ -1,19 +1,28 @@
+<!-- resources/views/welcome.blade.php -->
 <x-guest-layout>
     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 py-12">
         <div class="bg-red-300 overflow-hidden shadow-xl sm:rounded-lg p-6">
             <div class="text-center mt-10 text-3xl font-bold text-yellow-400 mb-8" style="font-family: 'Press Start 2P', cursive;">
                 Liste des Pokémon
             </div>
-            <div class="flex justify-center mb-6">
-                <form method="GET" action="{{ route('pokedex.index') }}" class="w-full max-w-md">
-                    <div class="flex items-center border-b-2 border-yellow-500 py-2">
-                        <input class="appearance-none bg-transparent border-none w-full text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none" type="text" name="search" placeholder="Rechercher un Pokémon" value="{{ request('search') }}">
-                        <button class="flex-shrink-0 bg-yellow-500 hover:bg-yellow-700 border-yellow-500 hover:border-yellow-700 text-sm border-4 text-white py-1 px-2 rounded" type="submit">
-                            Rechercher
-                        </button>
-                    </div>
-                </form>
-            </div>
+
+            <form method="GET" action="{{ route('pokedex.index') }}" class="mb-8 flex justify-center space-x-4">
+                <input type="text" name="search" placeholder="Rechercher un Pokémon" class="bg-white border border-gray-300 rounded px-4 py-2" value="{{ request('search') }}">
+                <select name="primary_type" class="bg-white border border-gray-300 rounded px-4 py-2">
+                    <option value="">Type Primaire</option>
+                    @foreach ($types as $type)
+                        <option value="{{ $type->id }}" {{ request('primary_type') == $type->id ? 'selected' : '' }}>{{ $type->name }}</option>
+                    @endforeach
+                </select>
+                <select name="secondary_type" class="bg-white border border-gray-300 rounded px-4 py-2">
+                    <option value="">Type Secondaire</option>
+                    @foreach ($types as $type)
+                        <option value="{{ $type->id }}" {{ request('secondary_type') == $type->id ? 'selected' : '' }}>{{ $type->name }}</option>
+                    @endforeach
+                </select>
+                <button type="submit" class="bg-blue-500 text-white rounded px-4 py-2">Rechercher</button>
+            </form>
+
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                 @foreach ($pokemons as $pokemon)
                     <a href="{{ route('pokedex.show', $pokemon->id) }}" class="block">
@@ -40,11 +49,10 @@
                     </a>
                 @endforeach
             </div>
-            
 
             <div class="mt-4">
-    {{ $pokemons->links('vendor.pagination.tailwind') }}
-</div>
+                {{ $pokemons->links('vendor.pagination.tailwind') }}
+            </div>
         </div>
     </div>
 </x-guest-layout>
